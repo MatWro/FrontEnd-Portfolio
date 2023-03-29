@@ -131,11 +131,12 @@
                 </div>
                 <div class="contact-right">
                     <form name="submit-to-google-sheet">
-                        <input type="text" name="Name" placeholder="Your Name" required>
-                        <input type="email" name="Email" placeholder="Your Email" required>
-                        <textarea name="Message" row="6" placeholder="Your Message"></textarea>
+                        <input type="text" name="name" placeholder="Your Name" required>
+                        <input type="email" name="email" placeholder="Your Email" required>
+                        <textarea name="message" row="6" placeholder="Your Message"></textarea>
                         <button type="submit" class="btn">Submit</button>
                     </form>
+                    <span id="msg">hello</span>
                 </div>
             </div>
         </div>
@@ -171,15 +172,21 @@
             sidemenu.style.right = "-200px";
         }
     </script>
-
     <script>
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbzmPHxAe9jN4ltWMUiG8RAapOWUdAdPgNVcFWbuL0VIqp65geUGvP3KT4Z5kKE8cJyk/exec'
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwc4mkcdTYoEoN5lMqs_GZr5VIND8NtFmK1IHHDqwz7uPHsCzCkhDlmeo4OC2RIg_kP/exec'
         const form = document.forms['submit-to-google-sheet']
+        const msg = document.getElementById("msg")
 
         form.addEventListener('submit', e => {
             e.preventDefault()
             fetch(scriptURL, { method: 'POST', body: new FormData(form) })
-                .then(response => console.log('Success!', response))
+                .then(response => {
+                    msg.innerHTML = "Message sent successfully"
+                    setTimeout(function () {
+                        msg.innerHTML = ""
+                    }, 5000)
+                    form.reset()
+                })
                 .catch(error => console.error('Error!', error.message))
         })
     </script>
